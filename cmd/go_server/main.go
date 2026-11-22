@@ -8,7 +8,12 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/health", api.Health)
+
+	storage := api.NewTaskStorage()
+
+	http.HandleFunc("/health", storage.Health)
+	http.HandleFunc("POST /create", storage.CreateTask)
+	http.HandleFunc("GET /read", storage.ReadTask)
 
 	fmt.Println("Serving listening on localhost:8000")
 	http.ListenAndServe(":8000", nil)
